@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe(Notable) do
+describe(BridgetownNotable) do
   let(:overrides) { {} }
   let(:config) do
     Bridgetown.configuration(Bridgetown::Utils.deep_merge_hashes({
@@ -22,7 +22,6 @@ describe(Notable) do
     }
   end
   let(:site) { Bridgetown::Site.new(config) }
-  let(:contents) { File.read(dest_dir("index.html")) }
   before(:each) do
     metadata = metadata_defaults.merge(metadata_overrides).to_yaml.sub("---\n", "")
     File.write(source_dir("_data/site_metadata.yml"), metadata)
@@ -30,7 +29,10 @@ describe(Notable) do
     FileUtils.rm(source_dir("_data/site_metadata.yml"))
   end
 
+  let(:first) { File.read(dest_dir("/notes/first.html")) }
+  let(:second) { File.read(dest_dir("/notes/second.html")) }
+
   it "outputs the sample Liquid tag" do
-    expect(contents).to match "This plugin works!"
+    expect(first).to match "I link to no one"
   end
 end
