@@ -1,6 +1,6 @@
 # Notable for Bridgetown
 
-A Bridgetown plugin to hoist notes and attachements from [Notable](https://notable.app/) inside your site.
+A Bridgetown plugin to host notes and attachments from [Notable](https://notable.app/), a markdown-based editor.
 
 ## Installation
 

@@ -2,7 +2,7 @@
 
 module BridgetownNotable
   class Builder < Bridgetown::Builder
-    LINK_PATTERN = %r{\[\[([^\]]+)\]\]}
+    LINK_PATTERN = %r!\[\[([^\]]+)\]\]!.freeze
 
     def build
       generator :attachments
@@ -12,14 +12,14 @@ module BridgetownNotable
 
     def attachments
       notable_pages.each do |page|
-        page.content.gsub!('(@attachment/', '(/attachments/')
+        page.content.gsub!("(@attachment/", "(/attachments/")
       end
     end
 
     def backlinks
       notable_pages.each do |page|
         pagename = page.data[:title]
-        backlinks = site.pages.select {|pg| pg.content =~ /\[\[#{pagename}\]\]/i }
+        backlinks = site.pages.select { |pg| pg.content =~ %r!\[\[#{pagename}\]\]!i }
         page.data[:backlinks] = backlinks if backlinks.any?
       end
     end
@@ -28,7 +28,7 @@ module BridgetownNotable
       notable_pages.each do |page|
         page.content.gsub!(LINK_PATTERN) do |match_string|
           title = match_string.match(LINK_PATTERN)[1]
-          link = site.pages.detect {|pg| pg.data[:title] == title}
+          link = site.pages.detect { |pg| pg.data[:title] == title }
           if link
             %(<a href="#{link.url}" class="wikilink">#{link.data[:title]}</a>)
           else
@@ -38,17 +38,14 @@ module BridgetownNotable
       end
     end
 
-  private
+    private
+
     def notable_pages
       site.pages.select { |page| notable?(page) }
     end
 
     def notable?(page)
       page.data[:notable]
-    end
-
-    def slugify(title)
-      title.downcase.gsub(/[^a-z0-9]+/, '-')
     end
   end
 end
