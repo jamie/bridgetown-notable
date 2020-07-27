@@ -5,19 +5,9 @@ module BridgetownNotable
     LINK_PATTERN = %r{\[\[([^\]]+)\]\]}
 
     def build
-      hook :pages, :post_init, :set_url
       generator :attachments
       generator :backlinks
       generator :wikilinks
-    end
-
-    def set_url(page)
-      return unless notable?(page)
-
-      parent_dir = page.dir.split('/')[0..-2].join('/')
-      url = "#{parent_dir}/#{slugify(page.data[:title])}.html"
-      # TODO: Find a better way to do this than mucking with internals
-      page.instance_variable_set(:@url, url)
     end
 
     def attachments
