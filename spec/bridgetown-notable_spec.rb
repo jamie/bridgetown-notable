@@ -32,7 +32,15 @@ describe(BridgetownNotable) do
   let(:first) { File.read(dest_dir("/notes/first.html")) }
   let(:second) { File.read(dest_dir("/notes/second.html")) }
 
-  it "outputs the sample Liquid tag" do
-    expect(first).to match "I link to no one"
+  it "updates attachment links" do
+    expect(first).to match('src="/attachments/foo')
+  end
+
+  it "populates backlinks" do
+    expect(first).to match('backlink: second')
+  end
+
+  it "formats wikilinks" do
+    expect(second).to match('<a href="/notes/first.html" class="wikilink">first</a>')
   end
 end

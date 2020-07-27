@@ -5,6 +5,11 @@
   </head>
   <body>
     THIS IS MY LAYOUT
-    {{ content }}
+    {% for link in page.backlinks %}
+    backlink: {{ link.title }}
+    {% endfor %}
+    <div>
+      {{ content }}
+    </div>
   </body>
 </html>
