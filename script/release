@@ -1,8 +1,8 @@
 #!/bin/sh
-# Tag and push a release to both Rubygems and NPM
+# Tag and push a release to both Rubygems and Github Packages
 
 set -e
 
 script/cibuild
-bundle exec rake release
-# npm publish
+bundle exec rake release && \
+gem push --key github --host https://rubygems.pkg.github.com/jamie pkg/bridgetown-notable*
