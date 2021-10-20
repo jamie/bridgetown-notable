@@ -1,0 +1,29 @@
+version: v1.0
+name: Initial Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: 'Block #1'
+    task:
+      jobs:
+        - name: lint
+          commands:
+            - checkout
+            - sem-version ruby 3.0.2
+            - cache restore
+            - bundle install
+            - cache store
+            - script/fmt
+        - name: test
+          commands:
+            - checkout
+            - sem-version ruby 3.0.2
+            - cache restore
+            - bundle install
+            - cache store
+            - script/test
+promotions:
+  - name: Release Gem
+    pipeline_file: pipeline_2.yml

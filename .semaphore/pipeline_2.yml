@@ -1,0 +1,18 @@
+version: v1.0
+name: Release
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: 'Block #1'
+    task:
+      jobs:
+        - name: rubygems
+          commands:
+            - checkout
+            - sem-version ruby 3.0.2
+            - cache restore
+            - bundle install
+            - cache store
+            - bundle exec rake release
