@@ -18,8 +18,8 @@ module BridgetownNotable
 
     def backlinks
       notable_pages.each do |page|
-        pagename = page.data[:title]
-        backlinks = site.pages.select { |pg| pg.content =~ %r!\[\[#{pagename}\]\]!i }
+        pagename = page.data.title
+        backlinks = all_pages.select { |pg| pg.content =~ %r!\[\[#{pagename}\]\]!i }
         page.data[:backlinks] = backlinks if backlinks.any?
       end
     end
@@ -28,9 +28,9 @@ module BridgetownNotable
       notable_pages.each do |page|
         page.content.gsub!(LINK_PATTERN) do |match_string|
           title = match_string.match(LINK_PATTERN)[1]
-          link = site.pages.detect { |pg| pg.data[:title] == title }
+          link = all_pages.detect { |pg| pg.data.title == title }
           if link
-            %(<a href="#{link.url}" class="wikilink">#{link.data[:title]}</a>)
+            %(<a href="#{link.relative_url}" class="wikilink">#{link.data.title}</a>)
           else
             title
           end
@@ -40,8 +40,12 @@ module BridgetownNotable
 
     private
 
+    def all_pages
+      site.collections.pages.resources
+    end
+
     def notable_pages
-      site.pages.select { |page| notable?(page) }
+      all_pages.select { |page| notable?(page) }
     end
 
     def notable?(page)
