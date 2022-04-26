@@ -30,7 +30,7 @@ module BridgetownNotable
           title = match_string.match(LINK_PATTERN)[1]
           link = all_pages.detect { |pg| pg.data.title == title }
           if link
-            %(<a href="#{link.relative_url}" class="wikilink">#{link.data.title}</a>)
+            %(<a href="/#{link.permalink}" class="wikilink">#{link.data.title}</a>)
           else
             title
           end
