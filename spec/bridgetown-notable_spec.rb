@@ -29,8 +29,8 @@ describe(BridgetownNotable) do
     FileUtils.rm(source_dir("_data/site_metadata.yml"))
   end
 
-  let(:first) { File.read(dest_dir("/notes/first.html")) }
-  let(:second) { File.read(dest_dir("/notes/second.html")) }
+  let(:first) { File.read(dest_dir("/notes/first/index.html")) }
+  let(:second) { File.read(dest_dir("/notes/second/index.html")) }
 
   it "updates attachment links" do
     expect(first).to match('src="/attachments/foo')
@@ -41,6 +41,6 @@ describe(BridgetownNotable) do
   end
 
   it "formats wikilinks" do
-    expect(second).to match('<a href="/notes/first.html" class="wikilink">first</a>')
+    expect(second).to match('<a href="/notes/first/" class="wikilink">first</a>')
   end
 end
